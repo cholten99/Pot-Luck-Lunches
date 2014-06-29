@@ -1,45 +1,137 @@
 <html>
   <head>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    
-    TBD!! jQuery register for drop-box and tickboxes and their callbacks
-    
+    <!-- jQuery -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <!-- Bootstrap -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+    <script>
+
+      $( document ).ready(function() {
+        $(':checkbox').change(function() {
+          var $this = $(this);
+          var $val = $this.val();
+          if ($this.is(':checked')) {
+            console.log("Checkbox " + $val + " was checked");
+          } else {
+            console.log("Checkbox " + $val + " was unchecked");
+          }
+        });
+      });
+
+      function changeLocation(newLocation) {
+        console.log(newLocation);
+      }
+
+      <!-- http://goo.gl/zMb4Z -->
+      function getWeekNumber() {
+        var d = new Date(+this);
+        d.setHours(0,0,0);
+        d.setDate(d.getDate()+4-(d.getDay()||7));
+        return Math.ceil((((d-new Date(d.getFullYear(),0,1))/8.64e7)+1)/7);
+      }
+
+    </script>
+
   </head>
 
   <body>
 
-<?php
+    <div class="container">
+      <div class="page-header">
+        <h1>Pot Luck Lunches<h1>
+        <h2>Your opportunity to meet interesting random people at work</h2>
+      </div>
 
-// Check for cookie
-$userID = $_COOKIE['userID'];
+      <?php 
+        $today_date = new DateTime();
 
-// If empty display page asking for name, email address and default location
-// on submission put info in People DB, write cookie and redirect to usual page
-if ($userID === "") {
-  header('Location: personal_details.php');
-}
+$today_date->add(new DateInterval('P1D'));
 
-// Get user info from the DB - including default value for location, list of all dates and list of ticked dates
+        Print "Welcome back Bob. It's " . $today_date->format("l") . ". Your current lunch meet-ups are below.<p/><p/><p/>";
+      ?>
 
+      <div class="dropdown btn-group">
+        <button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+          Location
+          <span class="caret"></span>
+        </button>    
+        <ul class="dropdown-menu" is="location-dropdown">
+          <li><a href="#" onclick="changeLocation('Aviation House');">Aviation House</a></li>
+          <li><a href="#" onclick="changeLocation('One Horse Guards Parade');">One Horse Guards Parade</a></li>
+          <li><a href="#" onclick="changeLocation('Other Place');">Other Place</a></li>
+        </ul>
+      </div>
 
-// Show main page
-print "Welcome back " . firstName . "<p/>";
-print "<a href='personal_details.php?userID=" . $userID . "'>Edit details</a><p/>";
+      <hr/>
 
-// User jQuery / AJAX to handle drop-down and list of tick-boxes
-// drop-down for location (usual one set as default) - change of location refreshes with different dates
+      <div id="all-weeks">
 
-// shows list of days (grouped by week with Monday date at the top) - prepopulated with ones previously ticked, ticking box AJAX sets / unsets MatchesDB
+      <?php
 
+        // Begin grid
+        print "<div class='row'>";
+        print "<div class='col-md-2'>";
 
+        $today_day_number = $today_date->format("w");
 
+        // Handle this week
+        $skip_this_week = false;          
+        if (($today_day_number == 0) || ($today_day_number == 5) || ($today_day_number == 6)) {
+          $skip_this_week = true;
+        }
 
-http://www.w3schools.com/php/php_cookies.asp
+        if ($skip_this_week == false) {
 
-setcookie("user", "Alex Porter");
+          print "<div id='this-week'>";
+          print "<b>This week</b><p/><p/>";
 
-?>
+          $working_date = $today_date->add(new DateInterval('P1D'));;
+          for ($i = $today_day_number + 1; $i < 6; $i++) {
+            $value_date = $working_date->format("d/m/y");
+            print "<p/><input type='checkbox' value='$value_date'/>&nbsp;";
+            print $working_date->format("l");
+            $working_date->add(new DateInterval('P1D'));
+          }
+
+          print "</div>";
+        }
+
+        // Close row in grid
+        print "</div>";
+
+        // Other weeks
+        $number_other_weeks = 0;
+        if ($skip_this_week == true) {
+          $number_other_weeks = 5;
+        } else {
+          $number_other_weeks = 4;
+        }
+
+        $working_date = $today_date->modify('next Monday');
+        for ($j = 0; $j < $number_other_weeks; $j++) {
+          print "<div class='col-md-2'>";
+          print "<b>Week starting : " . $working_date->format("d/m/y") . "</b><p/>";
+          for ($k = 0; $k < 5; $k++) {
+            $value_date = $working_date->format("d/m/y");
+            print "</p><input type='checkbox' value='$value_date'/>&nbsp;";
+            print $working_date->format("l");
+            $working_date->add(new DateInterval('P1D'));
+          }
+          // Close row in grid
+          print "</div>";
+          $working_date->modify('next Monday');
+        }
+
+        // Close grid
+        print "</div";
+      ?>
+
+      </div>
+
+    </div>
 
   </body>
-
-</html>
+</head>
