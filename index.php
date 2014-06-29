@@ -25,14 +25,6 @@
         console.log(newLocation);
       }
 
-      <!-- http://goo.gl/zMb4Z -->
-      function getWeekNumber() {
-        var d = new Date(+this);
-        d.setHours(0,0,0);
-        d.setDate(d.getDate()+4-(d.getDay()||7));
-        return Math.ceil((((d-new Date(d.getFullYear(),0,1))/8.64e7)+1)/7);
-      }
-
     </script>
 
   </head>
@@ -46,11 +38,10 @@
       </div>
 
       <?php 
+        date_default_timezone_set("UTC");
         $today_date = new DateTime();
 
-$today_date->add(new DateInterval('P1D'));
-
-        Print "Welcome back Bob. It's " . $today_date->format("l") . ". Your current lunch meet-ups are below.<p/><p/><p/>";
+        Print "Welcome back Bob. It's " . $today_date->format("l jS \of F Y") . ". Your current lunch meet-ups are below.<p/><p/><p/>";
       ?>
 
       <div class="dropdown btn-group">
@@ -73,8 +64,6 @@ $today_date->add(new DateInterval('P1D'));
 
         // Begin grid
         print "<div class='row'>";
-        print "<div class='col-md-2'>";
-
         $today_day_number = $today_date->format("w");
 
         // Handle this week
@@ -84,7 +73,7 @@ $today_date->add(new DateInterval('P1D'));
         }
 
         if ($skip_this_week == false) {
-
+          print "<div class='col-md-2'>";
           print "<div id='this-week'>";
           print "<b>This week</b><p/><p/>";
 
