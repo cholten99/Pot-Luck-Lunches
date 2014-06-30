@@ -34,7 +34,7 @@
     <div class="container">
       <div class="page-header">
         <h1>Pot Luck Lunches<h1>
-        <h2>Your opportunity to meet interesting random people at work</h2>
+        <h2>Your opportunity to meet random interesting people at work</h2>
       </div>
 
       <?php 
