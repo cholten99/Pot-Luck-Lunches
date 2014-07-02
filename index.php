@@ -4,7 +4,8 @@
     header('Location: main.php');
     exit;
   } else {
-    header('Location: start.php');
+    header('Location: login.php');
+    exit;
   }
 
 ?>

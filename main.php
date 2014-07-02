@@ -41,19 +41,21 @@
         date_default_timezone_set("UTC");
         $today_date = new DateTime();
 
-        Print "Welcome back Bob. It's " . $today_date->format("l jS \of F Y") . ". Your current lunch meet-ups are below.<p/><p/><p/>";
+        print "<h4>Welcome back Bob. <a href='user.php?id=$id'>Click here</a> if you need to update your details.<p/><p/>";
+        print "It's " . $today_date->format("l jS \of F Y") . ". Your current lunch meet-ups are below.</h4><p/>&nbsp;<p/>";
       ?>
 
-      <div class="dropdown btn-group">
-        <button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
-          Location
-          <span class="caret"></span>
-        </button>    
-        <ul class="dropdown-menu" is="location-dropdown">
-          <li><a href="#" onclick="changeLocation('Aviation House');">Aviation House</a></li>
-          <li><a href="#" onclick="changeLocation('One Horse Guards Parade');">One Horse Guards Parade</a></li>
-          <li><a href="#" onclick="changeLocation('Other Place');">Other Place</a></li>
-        </ul>
+      <div class="row">
+        <div class='col-md-2'>
+          <h4><label for="PLLLocation">For location : </label></h4>
+        </div>
+        <div class='col-md-3'>
+          <select class="form-control input-lg" name="PLLLocation" id="YourLocation" width="20%">
+            <option value="Aviation House">Aviation House</option>
+            <option value="One Horse Guards Parade">One Horse Guards Parade</option>
+            <option value="Other Place">Other Place</option>
+          </select>
+        </div>
       </div>
 
       <hr/>
