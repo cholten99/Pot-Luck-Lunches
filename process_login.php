@@ -6,7 +6,11 @@
   $password = $_POST['PLLPassword'];
   $password_hash = md5($password);
 
-  // NB - set env vars in apache envvars file (/etc/apache2/envvars in Ubuntu)
+  // NB this must be wrong as needs to be different for different apps!
+  // NB - set env vapache envvars file
+  // /etc/apache2/envvars in Ubuntu
+  // /usr/sbin/envvars in MacOs
+  
 
   $host = getenv("DB1_HOST");
   $user = getenv("DB1_USER");
