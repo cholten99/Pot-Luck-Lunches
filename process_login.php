@@ -1,26 +1,37 @@
 <?php
 
+  session_start();
+
   $email = $_POST['PLLEmail'];
   $password = $_POST['PLLPassword'];
   $password_hash = md5($password);
 
-  $mysqli = new mysqli( $_SERVER["DB1_HOST"], $_SERVER["DB1_USER"],
-                        $_SERVER["DB1_PASS"], $_SERVER["DB1_NAME"],
-                        $_SERVER["DB1_PORT"]);
+  // NB - set env vars in apache envvars file (/etc/apache2/envvars in Ubuntu)
+
+  $host = getenv("DB1_HOST");
+  $user = getenv("DB1_USER");
+  $pass = getenv("DB1_PASS");
+  $name = getenv("DB1_NAME");
+
+  $mysqli = new mysqli($host, $user, $pass, $name);
 
   if ($mysqli->connect_errno) {
     print "Failed to connect to MySQL: " . $mysqli->connect_error;
   }
 
-  $fetch_string = "SELECT name FROM users WHERE (password='" . $password . "')";
-
+  $fetch_string = "SELECT id, email FROM users WHERE (password='" . $password_hash . "')";
   $result = $mysqli->query($fetch_string);
-  $row = $res->fetch_assoc();
+  $row = $result->fetch_assoc();
+  $mysqli->close();
 
   if ($row['email'] == $email) {
+    // Success
+    setCookie("pot-luck-lunches", $row['id']);
+    $_SESSION['id'] = $row['id'];
     header('Location: main.php');
   } else {
-    header('Location: login.php?error=true');
+    $_SESSION['pll-error'] = "true";
+    header('Location: login.php');
   }
 
 ?>

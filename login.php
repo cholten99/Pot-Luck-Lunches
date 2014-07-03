@@ -1,3 +1,5 @@
+<?php session_start(); ?>
+
 <html>
   <head>
     <!-- jQuery -->
@@ -18,7 +20,7 @@
       <div id="main-bit">
 
         <?php
-          if ($_GET['error'] == "true") {
+          if ($_SESSION['pll-error'] == "true") {
             print "<div class='alert alert-danger fade in'>Email or password incorrect</div>";
           }
         ?>
@@ -35,17 +37,13 @@
           </div>
  
           <p/>&nbsp;<p/>          
-          <h3>First time? Please <a href="user.php">click here to register</a>.</h3>
+          <h3>First time? Please <a href="register.php">click here to register</a>.</h3>
           <h3>Having problems logging in <a href="mailto:david.durant@digital.cabinet-office.gov.uk">click here for help</a>.</h3>
 
 
         </form>
 
       </div>
-
-    <?php
-//      setCookie("pot-luck-lunches", "some-value");
-    ?>
 
   </body>
 </html>

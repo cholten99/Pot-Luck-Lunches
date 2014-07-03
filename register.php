@@ -1,7 +1,3 @@
-<?php
-  setCookie("pot-luck-lunches", "some-value");
-?>
-
 <html>
   <head>
     <!-- jQuery -->
@@ -21,7 +17,7 @@
 
       <div id="main-bit">
 
-        <form role="form" action="process_user.php" method="post">
+        <form role="form" action="process_register.php" method="post">
           <div class="form-group">
             <h3><label for="PLLName">Your name (&lt;first name&gt; &lt;last name&gt;)</label></h3>
             <input type="text" class="form-control input-lg" name="PLLName" id="PLLName" placeholder="Your name here">

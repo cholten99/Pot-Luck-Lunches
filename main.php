@@ -1,3 +1,5 @@
+<?php session_start(); ?>
+
 <html>
   <head>
     <!-- jQuery -->
@@ -41,8 +43,27 @@
         date_default_timezone_set("UTC");
         $today_date = new DateTime();
 
-        print "<h4>Welcome back Bob. <a href='user.php?id=$id'>Click here</a> if you need to update your details.<p/><p/>";
-        print "It's " . $today_date->format("l jS \of F Y") . ". Your current lunch meet-ups are below.</h4><p/>&nbsp;<p/>";
+        $host = getenv("DB1_HOST");
+        $user = getenv("DB1_USER");
+        $pass = getenv("DB1_PASS");
+        $name = getenv("DB1_NAME");
+
+        $mysqli = new mysqli($host, $user, $pass, $name);
+
+        if ($mysqli->connect_errno) {
+          print "Failed to connect to MySQL: " . $mysqli->connect_error;
+        }
+
+        $id = $_SESSION['id'];
+        $fetch_string = "SELECT name FROM users WHERE (id='" . $id . "')";
+        $result = $mysqli->query($fetch_string);
+        $row = $result->fetch_assoc();
+        $name = $row['name'];
+        $first_name = substr($name, 0, strpos($name, " "));
+        $mysqli->close();
+
+        print "<h4>Welcome $first_name. <a href='edit_user.php'>Click here</a> if you need to update your details.<p/><p/>";
+        print "It's " . $today_date->format("l jS \of F Y") . ". Your current lunch meet-ups are below.";
       ?>
 
       <div class="row">
@@ -50,7 +71,7 @@
           <h4><label for="PLLLocation">For location : </label></h4>
         </div>
         <div class='col-md-3'>
-          <select class="form-control input-lg" name="PLLLocation" id="YourLocation" width="20%">
+          <select class="form-control input-md" name="PLLLocation" id="YourLocation" width="20%">
             <option value="Aviation House">Aviation House</option>
             <option value="One Horse Guards Parade">One Horse Guards Parade</option>
             <option value="Other Place">Other Place</option>
