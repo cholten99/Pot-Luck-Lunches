@@ -6,18 +6,16 @@
   $password = $_POST['PLLPassword'];
   $password_hash = md5($password);
 
-  // NB this must be wrong as needs to be different for different apps!
-  // NB - set env vapache envvars file
+  // NB - set apache envvars file
   // /etc/apache2/envvars in Ubuntu
   // /usr/sbin/envvars in MacOs
   
-
   $host = getenv("DB1_HOST");
   $user = getenv("DB1_USER");
   $pass = getenv("DB1_PASS");
-  $name = getenv("DB1_NAME");
 
-  $mysqli = new mysqli($host, $user, $pass, $name);
+  $mysqli = new mysqli($host, $user, $pass);
+  $mysqli->select_db("pot-luck-lunches");
 
   if ($mysqli->connect_errno) {
     print "Failed to connect to MySQL: " . $mysqli->connect_error;

@@ -1,4 +1,30 @@
-<?php session_start(); ?>
+<?php 
+
+  session_start(); 
+
+  date_default_timezone_set("UTC");
+  $today_date = new DateTime();
+
+  $host = getenv("DB1_HOST");
+  $user = getenv("DB1_USER");
+  $pass = getenv("DB1_PASS");
+  $name = getenv("DB1_NAME");
+
+  $mysqli = new mysqli($host, $user, $pass, $name);
+
+  if ($mysqli->connect_errno) {
+    print "Failed to connect to MySQL: " . $mysqli->connect_error;
+  }
+
+  $id = $_SESSION['id'];
+  $fetch_string = "SELECT name,location FROM users WHERE (id='" . $id . "')";
+  $result = $mysqli->query($fetch_string);
+  $row = $result->fetch_assoc();
+  $name = $row['name'];
+  $first_name = substr($name, 0, strpos($name, " "));
+  $mysqli->close();
+
+?>
 
 <html>
   <head>
@@ -11,20 +37,40 @@
 
     <script>
 
+      $id = <?php print $_SESSION['id']; ?>;
+
       $( document ).ready(function() {
+
         $(':checkbox').change(function() {
           var $this = $(this);
           var $val = $this.val();
           if ($this.is(':checked')) {
-            console.log("Checkbox " + $val + " was checked");
+            $location = $("#PLLLocation").val();
+            $.post('process_date.php', { box_status: "checked", id : $id, location : $location, date : $val}); 
           } else {
-            console.log("Checkbox " + $val + " was unchecked");
-          }
+            $.post('process_date.php', { box_status: "unchecked", id : $id, location : $location, date : $val});           }
         });
+
+        $('#PLLLocation').change(function() {
+          setTickboxes($('#PLLLocation').val());
+        });
+
+        setTickboxes("<?php print $row['location']; ?>");
+
       });
 
-      function changeLocation(newLocation) {
-        console.log(newLocation);
+      function setTickboxes(location) {
+        console.log(location);
+      }
+
+      function setSelectedValue(selectName, valueToSet) {
+        selectObj = document.getElementById(selectName);
+        for (var i = 0; i < selectObj.options.length; i++) {
+          if (selectObj.options[i].text== valueToSet) {
+            selectObj.options[i].selected = true;
+            return;
+          }
+        }
       }
 
     </script>
@@ -40,28 +86,6 @@
       </div>
 
       <?php 
-        date_default_timezone_set("UTC");
-        $today_date = new DateTime();
-
-        $host = getenv("DB1_HOST");
-        $user = getenv("DB1_USER");
-        $pass = getenv("DB1_PASS");
-        $name = getenv("DB1_NAME");
-
-        $mysqli = new mysqli($host, $user, $pass, $name);
-
-        if ($mysqli->connect_errno) {
-          print "Failed to connect to MySQL: " . $mysqli->connect_error;
-        }
-
-        $id = $_SESSION['id'];
-        $fetch_string = "SELECT name FROM users WHERE (id='" . $id . "')";
-        $result = $mysqli->query($fetch_string);
-        $row = $result->fetch_assoc();
-        $name = $row['name'];
-        $first_name = substr($name, 0, strpos($name, " "));
-        $mysqli->close();
-
         print "<h4>Welcome $first_name. <a href='edit_user.php'>Click here</a> if you need to update your details.<p/><p/>";
         print "It's " . $today_date->format("l jS \of F Y") . ". Your current lunch meet-ups are below.";
       ?>
@@ -71,13 +95,15 @@
           <h4><label for="PLLLocation">For location : </label></h4>
         </div>
         <div class='col-md-3'>
-          <select class="form-control input-md" name="PLLLocation" id="YourLocation" width="20%">
+          <select class="form-control input-md" name="PLLLocation" id="PLLLocation" width="20%">
             <option value="Aviation House">Aviation House</option>
             <option value="One Horse Guards Parade">One Horse Guards Parade</option>
             <option value="Other Place">Other Place</option>
           </select>
         </div>
       </div>
+
+      <script>setSelectedValue("PLLLocation", "<?php print $row['location']; ?>");</script>
 
       <hr/>
 
