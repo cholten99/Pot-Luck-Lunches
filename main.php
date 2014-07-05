@@ -43,12 +43,13 @@
 
         $(':checkbox').change(function() {
           var $this = $(this);
-          var val = $this.val();
+          var val = $this.attr('id');
           if ($this.is(':checked')) {
-            location = $("#PLLLocation").val();
-            $.post('process_date.php', { box_status: "checked", id : id, location : location, date : val}); 
+            // Asside - setting a variable called "location" seems to have the same effect as PHP header("location: ...");
+            plllocation = $("#PLLLocation").val();
+            $.post('process_date.php', { box_status: "checked", id : id, location : plllocation, date : val}); 
           } else {
-            $.post('process_date.php', { box_status: "unchecked", id : id, location : location, date : val});         
+            $.post('process_date.php', { box_status: "unchecked", id : id, location : plllocation, date : val});         
           }
         });
 
@@ -61,10 +62,15 @@
       });
 
       function setTickboxes(location) {
+        // Set all to empty
+        $(":checkbox").prop('checked', false);
+
         $.get('process_tickboxes.php', {location : location}, function(data,status) {
-          if (date_array == "") return;
+          if (data == "[]") return;
           date_array = $.parseJSON(data);
-          console.log(date_array);
+          for (var i = 0; i < date_array.length; i++) {
+            $("#" + date_array[i].date).prop('checked', true);
+          }
         });
       }
 
@@ -133,7 +139,8 @@
           $working_date = $today_date->add(new DateInterval('P1D'));;
           for ($i = $today_day_number + 1; $i < 6; $i++) {
             $value_date = $working_date->format("d/m/y");
-            print "<p/><input type='checkbox' id='$value_date' value='$value_date'/>&nbsp;";
+            $stripped_date = str_replace('/', '', $value_date);
+            print "<p/><input type='checkbox' id='$stripped_date' value='$stripped_date'/>&nbsp;";
             print $working_date->format("l");
             $working_date->add(new DateInterval('P1D'));
           }
@@ -158,7 +165,8 @@
           print "<b>Week starting : " . $working_date->format("d/m/y") . "</b><p/>";
           for ($k = 0; $k < 5; $k++) {
             $value_date = $working_date->format("d/m/y");
-            print "</p><input type='checkbox' id='$value_date' value='$value_date'/>&nbsp;";
+            $stripped_date = str_replace('/', '', $value_date);
+            print "<p/><input type='checkbox' id='$stripped_date' value='$stripped_date'/>&nbsp;";
             print $working_date->format("l");
             $working_date->add(new DateInterval('P1D'));
           }
