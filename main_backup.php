@@ -62,7 +62,6 @@
 
       function setTickboxes(location) {
         $.get('process_tickboxes.php', {location : location}, function(data,status) {
-          if (date_array == "") return;
           date_array = $.parseJSON(data);
           console.log(date_array);
         });
@@ -115,6 +114,7 @@
       <div id="all-weeks">
 
       <?php
+
         // Begin grid
         print "<div class='row'>";
         $today_day_number = $today_date->format("w");
@@ -133,7 +133,7 @@
           $working_date = $today_date->add(new DateInterval('P1D'));;
           for ($i = $today_day_number + 1; $i < 6; $i++) {
             $value_date = $working_date->format("d/m/y");
-            print "<p/><input type='checkbox' id='$value_date' value='$value_date'/>&nbsp;";
+            print "<p/><input type='checkbox' id="$value_date" value='$value_date'/>&nbsp;";
             print $working_date->format("l");
             $working_date->add(new DateInterval('P1D'));
           }
@@ -158,7 +158,7 @@
           print "<b>Week starting : " . $working_date->format("d/m/y") . "</b><p/>";
           for ($k = 0; $k < 5; $k++) {
             $value_date = $working_date->format("d/m/y");
-            print "</p><input type='checkbox' id='$value_date' value='$value_date'/>&nbsp;";
+            print "</p><input type='checkbox' value='$value_date'/>&nbsp;";
             print $working_date->format("l");
             $working_date->add(new DateInterval('P1D'));
           }
@@ -169,7 +169,6 @@
 
         // Close grid
         print "</div";
-
       ?>
 
       </div>
