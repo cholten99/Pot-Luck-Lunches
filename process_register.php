@@ -10,7 +10,7 @@
 
   // NB - set apache envvars file
   // /etc/apache2/envvars in Ubuntu
-  // /usr/sbin/envvars in MacOs
+  // /System/Library/LaunchDaemons/org.apache.httpd.plist in MacOs
   
   $host = getenv("DB1_HOST");
   $user = getenv("DB1_USER");
@@ -24,7 +24,9 @@
   }
 
   $insert_string = "INSERT INTO users (name, email, password, location) VALUES ('$pllname', '$pllemail', '$pllpassword_hash', '$plllocation')";
+
   $mysqli->query($insert_string) or die(mysqli_error($mysqli));
+
   $_SESSION['id'] = $mysqli->insert_id;
   $mysqli->close();
 

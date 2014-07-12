@@ -1,6 +1,7 @@
 <?php
 
   include("phpmailer.php");
+// TBD : Remove logging
 include("utilities.php");
 
 emptyTestFile();
