@@ -33,12 +33,13 @@
         <li>Does it need a button to clear all tickboxes?
         <li>Does it need to be able to delete accounts?
         <li>Password resets?
+        <li>Check the name field contains exactly one space
         <li>Email conformation?
         <li>Go through code for TBDs
         <li>Mechanism for people to record meeting up (might be just a twitter address - if so add feed to page?).
-        <li>Proper email address for the emails to come from, responses to go back to (routed to me?) - help email address changed to same
+        <li>Proper email address for the emails to come from, responses to go back to (routed to me?) - search for my email everywhere and replace
         <li>Performance platform equivalent... Show "Join <x> people to..." if X > 10?
-        <li>Sent from something proper (not my gmail account!)
+        <li>Emails sent from something proper (create a specific gmail account for it?)
       </ul>
 
     </div>

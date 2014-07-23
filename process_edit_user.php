@@ -5,7 +5,7 @@
   $pllname = $_POST['PLLName'];
   $pllemail = $_POST['PLLEmail'];
   $pllpassword = $_POST['PLLPassword'];
-  $pllpassword_hash = md5($password);
+  $pllpassword_hash = md5($pllpassword);
   $plllocation = $_POST['PLLLocation'];
 
   $id = $_SESSION['id'];

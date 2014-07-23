@@ -42,11 +42,11 @@
       $( document ).ready(function() {
 
         $(':checkbox').change(function() {
+          // Asside - setting a variable called "location" seems to have the same effect as PHP header("location: ...");
+          var plllocation = $("#PLLLocation").val();            
           var $this = $(this);
           var val = $this.attr('id');
           if ($this.is(':checked')) {
-            // Asside - setting a variable called "location" seems to have the same effect as PHP header("location: ...");
-            plllocation = $("#PLLLocation").val();
             $.post('process_date.php', { box_status: "checked", id : id, location : plllocation, date : val}); 
           } else {
             $.post('process_date.php', { box_status: "unchecked", id : id, location : plllocation, date : val});         
