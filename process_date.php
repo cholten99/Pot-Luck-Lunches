@@ -6,7 +6,7 @@ include("utilities.php");
 
 emptyTestFile();
 
-logToTestFile("One!\n");
+logToTestFile("Uno!\n");
 
   session_start();
 
@@ -26,7 +26,7 @@ logToTestFile("One!\n");
   $mysqli = new mysqli($host, $user, $pass);
   $mysqli->select_db("plldb");
 
-logToTestFile("Two!\n");
+logToTestFile("Duos!\n");
 
   if ($mysqli->connect_errno) {
   
@@ -45,7 +45,7 @@ logToTestFile($mysqli->error . "\n");
     $mysqli->query($delete_string);
   }
 
-logToTestFile("Three!\n");
+logToTestFile("Tres!\n");
 
   $mysqli->close();
 /*
