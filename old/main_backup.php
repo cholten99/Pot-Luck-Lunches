@@ -10,7 +10,7 @@
   $pass = getenv("DB1_PASS");
 
   $mysqli = new mysqli($host, $user, $pass);
-  $mysqli->select_db("pot-luck-lunches");
+  $mysqli->select_db("plldb");
 
   if ($mysqli->connect_errno) {
     print "Failed to connect to MySQL: " . $mysqli->connect_error;
