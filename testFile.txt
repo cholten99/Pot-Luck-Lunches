@@ -1,3 +1,5 @@
-One!
-Two!
-Three!
+Uno!
+Duos!
+INSERT INTO dates (user_id, date, location) VALUES (116, '120814', 'Aviation House')
+
+Tres!

@@ -20,7 +20,7 @@
       <div id="main-bit">
 
         <?php
-          if ($_SESSION['pll-error'] == "true") {
+          if ($_SESSION['pll-error']) {
             print "<div class='alert alert-danger fade in'>Email or password incorrect</div>";
           }
         ?>

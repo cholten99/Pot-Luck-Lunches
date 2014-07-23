@@ -1,12 +1,6 @@
 <?php
 
   include("phpmailer.php");
-// TBD : Remove logging
-include("utilities.php");
-
-emptyTestFile();
-
-logToTestFile("Uno!\n");
 
   session_start();
 
@@ -26,26 +20,17 @@ logToTestFile("Uno!\n");
   $mysqli = new mysqli($host, $user, $pass);
   $mysqli->select_db("plldb");
 
-logToTestFile("Duos!\n");
-
   if ($mysqli->connect_errno) {
-  
-logToTestFile("Two point five!\n");
-  
     print "Failed to connect to MySQL: " . $mysqli->connect_error;
   }
 
   if ($box_status == "checked") {
     $insert_string = "INSERT INTO dates (user_id, date, location) VALUES ($id, '$date', '$location')";
-logToTestFile($insert_string . "\n");
     $mysqli->query($insert_string);
-logToTestFile($mysqli->error . "\n");
   } else {
     $delete_string = "DELETE FROM dates WHERE date='$date'";
     $mysqli->query($delete_string);
   }
-
-logToTestFile("Tres!\n");
 
   $mysqli->close();
 /*
