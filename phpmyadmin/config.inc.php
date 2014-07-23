@@ -28,12 +28,7 @@ $i++;
 /* Authentication type */
 $cfg['Servers'][$i]['auth_type'] = 'cookie';
 /* Server parameters */
-<<<<<<< HEAD
 $cfg['Servers'][$i]['host'] = 'tunnel.pagodabox.com';
-=======
-$cfg['Servers'][$i]['host'] = 'plldb';
-$cfg['Servers'][$i]['socket'] = 'tunnel.pagodabox.com';
->>>>>>> 9feb221bf1a045c60237b57733650da725dea585
 $cfg['Servers'][$i]['connect_type'] = 'tcp';
 $cfg['Servers'][$i]['compress'] = false;
 $cfg['Servers'][$i]['AllowNoPassword'] = false;
