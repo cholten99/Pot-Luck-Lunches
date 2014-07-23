@@ -1,9 +1,12 @@
 <?php
 
   include("phpmailer.php");
+// TBD : Remove logging
 include("utilities.php");
 
 emptyTestFile();
+
+logToTestFile("One!\n");
 
   session_start();
 
@@ -23,20 +26,29 @@ emptyTestFile();
   $mysqli = new mysqli($host, $user, $pass);
   $mysqli->select_db("pot-luck-lunches");
 
+logToTestFile("Two!\n");
+
   if ($mysqli->connect_errno) {
+  
+logToTestFile("Two point five!\n");
+  
     print "Failed to connect to MySQL: " . $mysqli->connect_error;
   }
 
   if ($box_status == "checked") {
-    $insert_string = "INSERT INTO dates (user_id, date, location) VALUES ('$id', '$date', '$location')";
-    $mysqli->query($insert_string) or die(mysqli_error($mysqli));
+    $insert_string = "INSERT INTO dates (user_id, date, location) VALUES ($id, '$date', '$location')";
+logToTestFile($insert_string . "\n");
+    $mysqli->query($insert_string);
+logToTestFile($mysqli->error . "\n");
   } else {
     $delete_string = "DELETE FROM dates WHERE date='$date'";
-    $mysqli->query($delete_string) or die(mysqli_error($mysqli));
+    $mysqli->query($delete_string);
   }
 
-  $mysqli->close();
+logToTestFile("Three!\n");
 
+  $mysqli->close();
+/*
   // Now for the fun stuff - let's send some meeting emails
 
   // Firstly need to get some data about who to send it to
@@ -101,6 +113,7 @@ emptyTestFile();
                          "UID:david.durant@digital.cabinet-office.gov.uk\n" .
                          "DTSTAMP:" . $datestamp_now . "\n" .
                          "ORGANIZER;CN=Pot Luck Lunches:MAILTO:david.durant@digital.cabinet-office.gov.uk\n" .
+                         "LOCATION:" . $location . "\n" .
                          "DTSTART:" . $datestamp_start . "\n" .
                          "DTEND:" . $datestamp_end . "\n" .
                          "SUMMARY:Pot Luck Lunch invite for " . $date_string . "\n" .
@@ -115,6 +128,7 @@ emptyTestFile();
                          "UID:david.durant@digital.cabinet-office.gov.uk\n" .
                          "DTSTAMP:" . $datestamp_now . "\n" .
                          "ORGANIZER;CN=Pot Luck Lunches:MAILTO:david.durant@digital.cabinet-office.gov.uk\n" .
+                         "LOCATION:" . $location . "\n" .
                          "SEQUENCE:1\n" .
                          "DTSTART:" . $datestamp_start . "\n" .
                          "DTEND:" . $datestamp_end . "\n" .
@@ -129,5 +143,5 @@ emptyTestFile();
   if (!$mail->Send()) {
     logToTestFile("Mailer Error: " . $mail->ErrorInfo);
   }
-
+*/
 ?>

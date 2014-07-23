@@ -1,17 +1,21 @@
-<?php session_start(); 
+<?php 
+
+  session_start(); 
 
   $host = getenv("DB1_HOST");
   $user = getenv("DB1_USER");
   $pass = getenv("DB1_PASS");
-  $name = getenv("DB1_NAME");
 
   $mysqli = new mysqli($host, $user, $pass, $name);
+  $mysqli->select_db("pot-luck-lunches");
+
 
   if ($mysqli->connect_errno) {
     print "Failed to connect to MySQL: " . $mysqli->connect_error;
   }
 
   $id = $_SESSION['id'];
+  
   $fetch_string = "SELECT * FROM users WHERE (id='" . $id . "')";
   $result = $mysqli->query($fetch_string);
   $row = $result->fetch_assoc();

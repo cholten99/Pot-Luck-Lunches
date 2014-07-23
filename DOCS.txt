@@ -1,0 +1,1 @@
+Before pushing to Pagoda remember to go into the phpmyadmin folder and swap the config.ini.php file to prod!
