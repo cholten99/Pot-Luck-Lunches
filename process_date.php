@@ -137,7 +137,7 @@ logToTestFile("Three!\n");
                          "END:VCALENDAR\n";
   }
 
-  $mail->AddStringAttachment($attachment_string, "plldb.ics", "base64", "text/calendar; charset=US-ASCII; ");
+  $mail->AddStringAttachment($attachment_string, "pot-luck-lunches.ics", "base64", "text/calendar; charset=US-ASCII; ");
 
   // And whooosh!
   if (!$mail->Send()) {
