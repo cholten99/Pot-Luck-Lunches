@@ -33,7 +33,7 @@
   }
 
   $mysqli->close();
-/*
+
   // Now for the fun stuff - let's send some meeting emails
 
   // Firstly need to get some data about who to send it to
@@ -72,61 +72,17 @@
   $mail->From       = "david.durant@digital.cabinet-office.gov.uk";
   $mail->FromName   = "Pot Luck Lunches";
   $mail->AddReplyTo("david.durant@digital.cabinet-office.gov.uk", "David Durant");
-  $mail->Subject    = "Pot Luck Lunches invite";
+  $mail->Subject    = "Pot Luck Lunches invite - 12pm on " . substr($date, 0, 2) . "/" . substr($date, 2, 2) . "/" . substr($date, 4, 2);
 
   $mail->IsHTML(true);
-  $mail->MsgHTML("Pot Luck Lunches meeting related email");
-  $mail->AltBody    = "Pot Luck Lunches meeting related email";
+  $mail->MsgHTML("This is an automated Pot Luck Lunches meeting invite. We suggest adding an entry to your calendar so you remember. You'll be contacted automatically on the day with the email addresses of those people you'll be having lunch with.");
+  $mail->AltBody    = "This is an automated Pot Luck Lunches meeting invite. We suggest adding an entry to your calendar so you remember. You'll be contacted automatically on the day with the email addresses of those people you'll be having lunch with.";
 
   $mail->WordWrap   = 50;
-
-  // Including the funky attachment
-
-  $datestamp_now = date("Ymd\THis\Z", time());
-  $day = substr($date, 0, 2);
-  $month = substr($date, 2, 2); 
-  $year = substr($date, 4, 2);
-  $date_string = $day . "/" . $month . "/" . $year;
-  $datestamp_start = "20" . $year . $month . $day . "T110000Z";
-  $datestamp_end = "20" . $year . $month . $day . "T120000Z";
-
-  if ($box_status == "checked") {
-    $attachment_string = "BEGIN:VCALENDAR\n" . 
-                         "VERSION:2.0\n" .
-                         "PRODID:-//hacksw/handcal//NONSGML v1.0//EN\n" .
-                         "BEGIN:VEVENT\n" .
-                         "UID:david.durant@digital.cabinet-office.gov.uk\n" .
-                         "DTSTAMP:" . $datestamp_now . "\n" .
-                         "ORGANIZER;CN=Pot Luck Lunches:MAILTO:david.durant@digital.cabinet-office.gov.uk\n" .
-                         "LOCATION:" . $location . "\n" .
-                         "DTSTART:" . $datestamp_start . "\n" .
-                         "DTEND:" . $datestamp_end . "\n" .
-                         "SUMMARY:Pot Luck Lunch invite for " . $date_string . "\n" .
-                         "END:VEVENT\n" .
-                         "END:VCALENDAR\n";
-  } else {
-    $attachment_string = "BEGIN:VCALENDAR\n" . 
-                         "VERSION:2.0\n" .
-                         "PRODID:-//hacksw/handcal//NONSGML v1.0//EN\n" .
-                         "METHOD:CANCEL\n" . 
-                         "BEGIN:VEVENT\n" .
-                         "UID:david.durant@digital.cabinet-office.gov.uk\n" .
-                         "DTSTAMP:" . $datestamp_now . "\n" .
-                         "ORGANIZER;CN=Pot Luck Lunches:MAILTO:david.durant@digital.cabinet-office.gov.uk\n" .
-                         "LOCATION:" . $location . "\n" .
-                         "SEQUENCE:1\n" .
-                         "DTSTART:" . $datestamp_start . "\n" .
-                         "DTEND:" . $datestamp_end . "\n" .
-                         "SUMMARY:Pot Luck Lunch invite for " . $date_string . "\n" .
-                         "END:VEVENT\n" .
-                         "END:VCALENDAR\n";
-  }
-
-  $mail->AddStringAttachment($attachment_string, "pot-luck-lunches.ics", "base64", "text/calendar; charset=US-ASCII; ");
 
   // And whooosh!
   if (!$mail->Send()) {
     logToTestFile("Mailer Error: " . $mail->ErrorInfo);
   }
-*/
+
 ?>
